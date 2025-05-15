@@ -1,0 +1,26 @@
+name: Acesso Diário ao Site
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # Executa todo dia às 10h (horário de Brasília é UTC-3)
+  workflow_dispatch:  # Permite execução manual também
+
+jobs:
+  acesso:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar dependências
+        run: |
+          sudo apt update
+          sudo apt install -y chromium-browser
+          pip install selenium
+
+      - name: Rodar script de acesso
+        run: |
+          python acesso.py
+        env:
+          DISPLAY: :99
