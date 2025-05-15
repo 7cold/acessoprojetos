@@ -10,6 +10,11 @@ options.binary_location = "/usr/bin/chromium-browser"
 
 driver = webdriver.Chrome(options=options)
 
-driver.get("http://www.7cold.com/glauco")
-sleep(10)
+url = "http://www.7cold.com/glauco"  # <- Substitua pelo seu site real
+print(f"Acessando: {url}")
+driver.get(url)
+
+sleep(10)  # Espera 10 segundos
+
+print("Fechando navegador")
 driver.quit()
