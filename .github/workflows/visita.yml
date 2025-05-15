@@ -1,38 +1,32 @@
-name: Acesso Diário ao Site
+name: Selenium Teste com 7cold
 
 on:
-  schedule:
-    - cron: '0 13 * * *'  # Roda diariamente às 10h (Brasília)
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  acesso:
+  run-selenium:
     runs-on: ubuntu-latest
-    container:
-      image: selenium/standalone-chrome:latest  # tudo pronto aqui
 
     steps:
-      - name: Instalar Python e Selenium
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instala dependências
         run: |
-          apt-get update
-          apt-get install -y python3 python3-pip
+          sudo apt-get update
+          sudo apt-get install -y wget unzip curl
+          sudo apt-get install -y chromium-browser
+          sudo apt-get install -y chromium-chromedriver
+          python -m pip install --upgrade pip
           pip install selenium
 
-      - name: Rodar script
+      - name: Verifica versões
         run: |
-          echo "from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from time import sleep
+          chromium-browser --version
+          chromedriver --version
+          python --version
 
-options = Options()
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
-
-driver = webdriver.Chrome(options=options)
-driver.get('https://google.com')
-print('Página carregada com sucesso.')
-sleep(5)
-driver.quit()" > acesso.py
-
-          python3 acesso.py
+      - name: Roda o script Python
+        run: python acesso.py
