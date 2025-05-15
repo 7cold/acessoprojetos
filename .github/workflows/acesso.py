@@ -10,6 +10,6 @@ options.binary_location = "/usr/bin/chromium-browser"
 
 driver = webdriver.Chrome(options=options)
 
-driver.get("https://www.seusite.com.br")
+driver.get("http://www.7cold.com/glauco")
 sleep(10)
 driver.quit()
